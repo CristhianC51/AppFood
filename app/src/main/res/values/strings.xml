@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">AppFood</string>
+    <string name="txt_email">Email</string>
+    <string name="txt_contrasena">Contraseña</string>
+    <string name="txt_iniciar_sesion">Iniciar sesión</string>
+    <string name="txt_registrarse">Registrarse</string>
+    <string name="txt_nombre">Nombre</string>
+    <string name="txt_apellido">Apellido</string>
+    <string name="txt_edad">Edad</string>
+    <string name="txt_verifique_la_contrasena">Verifique la contraseña</string>
+    <string name="txt_regresar">Regresar</string>
 </resources>
