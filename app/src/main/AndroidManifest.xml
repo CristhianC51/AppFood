@@ -13,6 +13,18 @@
         android:theme="@style/Theme.AppFood"
         tools:targetApi="31">
         <activity
+            android:name=".Activity_Menu"
+            android:exported="false" />
+        <activity
+            android:name=".Activity_Favoritos"
+            android:exported="false" />
+        <activity
+            android:name=".Activity_Compras"
+            android:exported="false" />
+        <activity
+            android:name=".Activiy_Compras+}"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
