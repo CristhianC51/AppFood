@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "97487551050",
+    "project_id": "appfood-1763e",
+    "storage_bucket": "appfood-1763e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:97487551050:android:df579c5920b17b873304b3",
+        "android_client_info": {
+          "package_name": "com.cristhiancaballero.appfood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "97487551050-bt964idjurgg6taqc7oldg438tdrcdmk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDr3GOxaBv8GGuKS_smWNtsktpnxTZmdRo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "97487551050-bt964idjurgg6taqc7oldg438tdrcdmk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

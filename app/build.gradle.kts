@@ -1,5 +1,8 @@
 plugins {
     id("com.android.application")
+
+    //Servicios de google
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -42,6 +45,17 @@ dependencies {
 
     //Libreria para la implementacion del splash screen
     implementation ("com.airbnb.android:lottie:6.1.0")
+
+    //Circle Image
     implementation ("de.hdodenhof:circleimageview:3.1.0")
 
+    /* Firebase */
+    //Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
+    //Analitics
+    implementation("com.google.firebase:firebase-analytics-ktx")
+
+    //Autentificacion
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
 }

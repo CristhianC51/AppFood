@@ -9,4 +9,8 @@
     <string name="txt_edad">Edad</string>
     <string name="txt_verifique_la_contrasena">Verifique la contraseña</string>
     <string name="txt_regresar">Regresar</string>
+    <string name="txt_inicio">Inicio</string>
+    <string name="txt_cesta">Cesta</string>
+    <string name="txt_perfil">Perfil</string>
+    <string name="txt_favoritos">Favoritos</string>
 </resources>

@@ -28,7 +28,7 @@
             android:id="@+id/productImage"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/product_image"
+            android:src="@drawable/ic_perfil"
             android:layout_alignParentStart="true"/>
 
         <TextView
