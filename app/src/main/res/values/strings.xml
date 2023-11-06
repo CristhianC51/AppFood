@@ -15,4 +15,10 @@
     <string name="txt_favoritos">Favoritos</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="txt_nombre_de_usuario">Nombre de Usuario</string>
+    <string name="txt_correo">correo@ejemplo.com</string>
+    <string name="txt_editar_perfil">Editar Perfil</string>
+    <string name="txt_cerrar_sesion">Cerrar Sesión</string>
+    <string name="txt_editar_foto">Editar foto</string>
+    <string name="txt_borrar_foto">Borrar foto</string>
 </resources>

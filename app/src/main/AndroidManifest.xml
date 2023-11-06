@@ -14,22 +14,7 @@
         tools:targetApi="31">
         <activity
             android:name=".PrincipalActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".Activity_Menu"
-            android:exported="false" />
-        <activity
-            android:name=".Activity_Favoritos"
-            android:exported="false" />
-        <activity
-            android:name=".Activity_Compras"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
@@ -38,7 +23,12 @@
             android:exported="false" />
         <activity
             android:name=".SplashScreenActivity"
-            android:exported="false">
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
