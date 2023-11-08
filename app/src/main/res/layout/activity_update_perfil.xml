@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
-
+    tools:context=".UpdatePerfilActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        android:layout_margin="16dp">
+        tools:layout_editor_absoluteY="0dp">
 
         <TextView
             android:id="@+id/txt_titulo_registrarse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="@string/txt_registrarse"
+            android:layout_margin="16dp"
+            android:text="@string/txt_editar_perfil"
             android:textSize="34sp"
             android:textStyle="bold" />
 
@@ -61,13 +59,13 @@
             android:id="@+id/til_nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:layout_margin="16dp"
+            android:layout_marginTop="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_nombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:hint="@string/txt_nombre" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -76,13 +74,12 @@
             android:id="@+id/til_apellido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
+            android:layout_margin="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_apellido"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:hint="@string/txt_apellido" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,13 +87,12 @@
             android:id="@+id/til_edad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
+            android:layout_margin="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_edad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:hint="@string/txt_edad" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,13 +100,12 @@
             android:id="@+id/til_correo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
+            android:layout_margin="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_correo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:hint="@string/txt_email" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -118,13 +113,12 @@
             android:id="@+id/til_contrasena"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
+            android:layout_margin="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_contrasena"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:hint="@string/txt_contrasena" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -132,13 +126,12 @@
             android:id="@+id/til_verificar_contrasena"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
+            android:layout_margin="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_verificar_contrasena"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:hint="@string/txt_verifique_la_contrasena" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -149,7 +142,7 @@
 
             <Button
                 android:id="@+id/btn_registrarse"
-                android:layout_width="160dp"
+                android:layout_width="182dp"
                 android:layout_height="50dp"
                 android:layout_margin="16dp"
                 android:layout_marginTop="8dp"
@@ -158,14 +151,14 @@
 
             <Button
                 android:id="@+id/btn_regresar"
-                android:layout_width="160dp"
+                android:layout_width="182dp"
                 android:layout_height="50dp"
                 android:layout_margin="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:text="@string/txt_regresar"
                 tools:ignore="MissingConstraints" />
         </LinearLayout>
     </LinearLayout>
 
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

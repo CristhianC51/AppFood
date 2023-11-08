@@ -1,38 +1,39 @@
 package com.cristhiancaballero.appfood;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.ImageView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.cristhiancaballero.appfood.model.Usuario;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    ImageView iv_imagen_perfil;
     EditText et_nombre, et_apellido, et_edad, et_correo, et_contrasena, et_verificar_contrasena;
-    Button btn_registrarse, btn_regresar;
+    Button btn_registrarse, btn_regresar, btn_editar_foto, btn_borrar_foto;
     FirebaseAuth mAuth;
+    private Uri imageUri;
     private FirebaseFirestore mfirestore;
+    private boolean isCreatingUser = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,12 +50,26 @@ public class RegisterActivity extends AppCompatActivity {
 
         btn_registrarse = findViewById(R.id.btn_registrarse);
         btn_regresar = findViewById(R.id.btn_regresar);
+        btn_editar_foto = findViewById(R.id.btn_editar_foto);
+        btn_borrar_foto = findViewById(R.id.btn_borrar_foto);
+
+        iv_imagen_perfil = findViewById(R.id.iv_imagen_perfil);
 
         mAuth = FirebaseAuth.getInstance();
+
+        btn_editar_foto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectImage();
+            }
+        });
 
         btn_registrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String nombre = et_nombre.getText().toString();
+                String apellido = et_apellido.getText().toString();
+                String edad = et_edad.getText().toString();
                 String correo = et_correo.getText().toString();
                 String pass = et_contrasena.getText().toString();
                 String veripass = et_verificar_contrasena.getText().toString();
@@ -69,7 +84,8 @@ public class RegisterActivity extends AppCompatActivity {
                     et_verificar_contrasena.setError("La contraseña no es igual");
                     et_verificar_contrasena.setFocusable(true);
                 } else {
-                    Registrar(correo, pass);
+                    uploadImageToStorage(nombre, apellido, edad, imageUri, correo, "USUARIOS");
+                    //Registrar(correo, pass);
                 }
             }
         });
@@ -83,56 +99,67 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void Registrar(String correo, String pass) {
-        mAuth.createUserWithEmailAndPassword(correo, pass)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    private void selectImage() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            imageUri = data.getData();
+            iv_imagen_perfil.setImageURI(imageUri);
+        }
+    }
+
+    private void uploadImageToStorage(final String nombre, String apellido, String edad, Uri imageUri, String correo, String onActivity) {
+        String imageName = onActivity + "/" + System.currentTimeMillis() + ".jpg";
+
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(imageName);
+
+        storageRef.putFile(imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri downloadUrl) {
+                                String imageUrl = downloadUrl.toString();
 
-                            assert user != null;
-                            String uid = user.getUid();
-                            String correo = et_correo.getText().toString();
-                            String pass = et_contrasena.getText().toString();
-                            String nombre = et_nombre.getText().toString();
-                            String apellido = et_apellido.getText().toString();
-                            String edad = et_edad.getText().toString();
+                                Usuario usuario = new Usuario(nombre, apellido, edad, imageUrl, correo);
 
-                            HashMap<Object, String> DatosUsuario = new HashMap<>();
-
-                            DatosUsuario.put("uid", uid);
-                            DatosUsuario.put("pass", pass);
-                            DatosUsuario.put("correo", correo);
-                            DatosUsuario.put("nombre", nombre);
-                            DatosUsuario.put("apellido", apellido);
-                            DatosUsuario.put("edad", edad);
-                            DatosUsuario.put("imagen", "");
-
-                            mfirestore.collection("USUARIOS").add(DatosUsuario).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Toast.makeText(RegisterActivity.this, "Se a guardado en la base de datos", Toast.LENGTH_SHORT).show();
-                                    finish();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(RegisterActivity.this, "Error al registrar al usuario en la base de datos", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                            Toast.makeText(RegisterActivity.this, "Se a registrado exitosamente", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(RegisterActivity.this, PrincipalActivity.class));
-                        } else {
-                            Toast.makeText(RegisterActivity.this, "A fallado exitosamente", Toast.LENGTH_SHORT).show();
-                        }
+                                mfirestore.collection(onActivity)
+                                            .add(usuario)
+                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                @Override
+                                                public void onSuccess(DocumentReference documentReference) {
+                                                  Intent intent = new Intent(RegisterActivity.this, PrincipalActivity.class);
+                                                  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                  startActivity(intent);
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                isCreatingUser = false;
+                                                btn_registrarse.setEnabled(true);
+                                            }
+                                        });
+                            }
+                        });
                     }
-                }).addOnFailureListener(new OnFailureListener() {
+                })
+                .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        isCreatingUser = false;
+                        btn_registrarse.setEnabled(true);
                     }
                 });
     }
+
+
 }
