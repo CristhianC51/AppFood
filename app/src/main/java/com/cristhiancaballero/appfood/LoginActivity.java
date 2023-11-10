@@ -1,28 +1,38 @@
 package com.cristhiancaballero.appfood;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cristhiancaballero.appfood.Modelos.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText et_usuario, et_contrasena;
     Button btn_iniciar_sesion, btn_registrarse;
     FirebaseAuth mAuth;
+
+    FirebaseUser firebaseUser;
+    private FirebaseAuth.AuthStateListener authStateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         et_contrasena = findViewById(R.id.et_contrasena);
         btn_iniciar_sesion = findViewById(R.id.btn_iniciar_sesion);
         btn_registrarse = findViewById(R.id.btn_registrarse);
+
+        inicialize();
 
         btn_iniciar_sesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +61,10 @@ public class LoginActivity extends AppCompatActivity {
                 } else if (passUser.length() < 1) {
                     et_contrasena.setError("Ingresa la contraseña");
                     et_contrasena.setFocusable(true);
-                }else {
+                } else if (emailUser.equals("admin@gmail.com")){
+                    Intent intent = new Intent(LoginActivity.this, AdminInicioActivity.class);
+                    startActivity(intent);
+                } else {
                     loginUser(emailUser, passUser);
                 }
             }
@@ -83,5 +98,22 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Error al iniciar sesion", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void inicialize() {
+        mAuth = FirebaseAuth.getInstance();
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                if (firebaseUser != null) {
+                    Log.w(TAG, "onAuthStateChanged - Logueado");
+                    Intent intent = new Intent(LoginActivity.this, PrincipalActivity.class);
+                    startActivity(intent);
+                } else {
+                    Log.w(TAG, "onAuthStateChanged - Cerro sesion");
+                }
+            }
+        };
     }
 }

@@ -97,6 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
+                android:inputType="number"
                 android:hint="@string/txt_edad" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -118,13 +119,15 @@
             android:id="@+id/til_contrasena"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_contrasena"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
+                android:inputType="textPassword"
                 android:hint="@string/txt_contrasena" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -132,13 +135,15 @@
             android:id="@+id/til_verificar_contrasena"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_verificar_contrasena"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
+                android:inputType="textPassword"
                 android:hint="@string/txt_verifique_la_contrasena" />
         </com.google.android.material.textfield.TextInputLayout>
 

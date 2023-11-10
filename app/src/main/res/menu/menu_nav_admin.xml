@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_pedidos_admin"
+        android:title="@string/txt_pedidos"
+        android:icon="@drawable/ic_inicio"/>
+
+    <item
+        android:id="@+id/nav_realizados_admin"
+        android:title="@string/txt_pedidos_realizados"
+        android:icon="@drawable/ic_carrito_compras"/>
+
+    <item
+        android:id="@+id/nav_perfi_admin"
+        android:title="@string/txt_perfil"
+        android:icon="@drawable/ic_perfil"/>
+</menu>

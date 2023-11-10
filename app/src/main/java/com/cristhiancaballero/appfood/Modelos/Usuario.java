@@ -1,4 +1,4 @@
-package com.cristhiancaballero.appfood.model;
+package com.cristhiancaballero.appfood.Modelos;
 
 public class Usuario {
 

@@ -1,28 +1,35 @@
 package com.cristhiancaballero.appfood;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.cristhiancaballero.appfood.model.Usuario;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -74,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String pass = et_contrasena.getText().toString();
                 String veripass = et_verificar_contrasena.getText().toString();
 
-                if(!Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
+                if(!Patterns.EMAIL_ADDRESS.matcher(correo).matches() && correo.length()<1) {
                     et_correo.setError("Correo no valido");
                     et_correo.setFocusable(true);
                 } else if(pass.length()<6) {
@@ -84,8 +91,8 @@ public class RegisterActivity extends AppCompatActivity {
                     et_verificar_contrasena.setError("La contraseña no es igual");
                     et_verificar_contrasena.setFocusable(true);
                 } else {
-                    uploadImageToStorage(nombre, apellido, edad, imageUri, correo, "USUARIOS");
-                    //Registrar(correo, pass);
+                    int a = 1;
+                    uploadImageToStorage(nombre, apellido, edad, imageUri, correo, pass);
                 }
             }
         });
@@ -97,6 +104,14 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void updateUserProfile() {
+    }
+
+    private void showHomeActivity() {
+        startActivity(new Intent(RegisterActivity.this, PrincipalActivity.class));
+        finish();
     }
 
     private void selectImage() {
@@ -115,8 +130,8 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void uploadImageToStorage(final String nombre, String apellido, String edad, Uri imageUri, String correo, String onActivity) {
-        String imageName = onActivity + "/" + System.currentTimeMillis() + ".jpg";
+    private void uploadImageToStorage(final String nombre, String apellido, String edad, Uri imageUri, String correo, String pass) {
+        String imageName = "USUARIOS/" + System.currentTimeMillis() + ".jpg";
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(imageName);
 
@@ -129,23 +144,49 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onSuccess(Uri downloadUrl) {
                                 String imageUrl = downloadUrl.toString();
 
-                                Usuario usuario = new Usuario(nombre, apellido, edad, imageUrl, correo);
-
-                                mfirestore.collection(onActivity)
-                                            .add(usuario)
-                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                @Override
-                                                public void onSuccess(DocumentReference documentReference) {
-                                                  Intent intent = new Intent(RegisterActivity.this, PrincipalActivity.class);
-                                                  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                  startActivity(intent);
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
+                                mAuth.createUserWithEmailAndPassword(correo, pass)
+                                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                             @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                isCreatingUser = false;
-                                                btn_registrarse.setEnabled(true);
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                                if (task.isSuccessful()) {
+
+                                                    // Usuario creado con éxito
+                                                    String uid = mAuth.getCurrentUser().getUid();
+                                                    Map<String, Object> user = new HashMap<>();
+                                                    user.put("nombre", nombre);
+                                                    user.put("apellido", apellido);
+                                                    user.put("edad", edad);
+                                                    user.put("correo", correo);
+                                                    user.put("pass", pass);
+                                                    user.put("foto", imageUrl);
+                                                    String message = "Usuario creado";
+
+                                                    // Mostrar mensaje
+                                                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+
+                                                    mfirestore.collection("USUARIOS").document(uid).set(user)
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void aVoid) {
+                                                                    Log.d(TAG, "DocumentSnapshot added");
+                                                                    updateUserProfile();
+                                                                    showHomeActivity();
+                                                                }
+                                                            })
+                                                            .addOnFailureListener(new OnFailureListener() {
+                                                                @Override
+                                                                public void onFailure(@NonNull Exception e) {
+                                                                    Log.w(TAG, "Error añadiendo usuario", e);
+                                                                }
+                                                            });
+                                                } else {
+                                                    // Hubo error al crear usuario
+                                                    String message = task.getException().getMessage();
+                                                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+
+                                                }
+
                                             }
                                         });
                             }

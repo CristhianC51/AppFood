@@ -55,6 +55,7 @@
         android:layout_margin="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:passwordToggleEnabled="true"
         app:layout_constraintTop_toBottomOf="@+id/til_usuario">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -62,6 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
+            android:inputType="textPassword"
             android:hint="@string/txt_contrasena" />
     </com.google.android.material.textfield.TextInputLayout>
 

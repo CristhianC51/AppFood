@@ -21,4 +21,9 @@
     <string name="txt_cerrar_sesion">Cerrar Sesión</string>
     <string name="txt_editar_foto">Editar foto</string>
     <string name="txt_borrar_foto">Borrar foto</string>
+    <string name="txt_edad_mensaje">Edad:</string>
+    <string name="txt_age">años</string>
+    <string name="txt_pedidos">Pedidos</string>
+    <string name="txt_pedidos_realizados">Pedidos realizados</string>
+    <string name="txt_menu">Menu</string>
 </resources>
