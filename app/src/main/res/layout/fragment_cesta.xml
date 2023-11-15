@@ -1,67 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CestaFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <!-- Título -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/cartTitle"
-            android:layout_width="match_parent"
+            android:id="@+id/txt_titulo"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#3fa248"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="Carrito de Compras"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:text="@string/txt_carrito_de_compras"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.121"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_logo" />
 
-        <RelativeLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RecyclerViewCarrito"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
-
-            <!-- Contenido del RelativeLayout -->
-            <ImageView
-                android:id="@+id/productImage"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_alignParentStart="true"
-                android:src="@drawable/ic_perfil" />
-
-            <TextView
-                android:id="@+id/productName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/productImage"
-                android:text="Nombre del producto"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/productPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/productName"
-                android:layout_toEndOf="@id/productImage"
-                android:text="Precio: $10"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/btnDelete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="Eliminar" />
-        </RelativeLayout>
+            android:layout_marginTop="16dp"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 </FrameLayout>

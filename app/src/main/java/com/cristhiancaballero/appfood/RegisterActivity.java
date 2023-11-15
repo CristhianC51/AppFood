@@ -160,6 +160,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                     user.put("correo", correo);
                                                     user.put("pass", pass);
                                                     user.put("foto", imageUrl);
+                                                    user.put("uid", uid);
                                                     String message = "Usuario creado";
 
                                                     // Mostrar mensaje

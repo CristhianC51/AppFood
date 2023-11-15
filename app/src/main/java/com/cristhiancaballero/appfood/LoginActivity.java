@@ -2,9 +2,6 @@ package com.cristhiancaballero.appfood;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,16 +11,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.cristhiancaballero.appfood.Modelos.Usuario;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -44,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
         et_contrasena = findViewById(R.id.et_contrasena);
         btn_iniciar_sesion = findViewById(R.id.btn_iniciar_sesion);
         btn_registrarse = findViewById(R.id.btn_registrarse);
+
+        String correoU = et_usuario.getText().toString();
 
         inicialize();
 

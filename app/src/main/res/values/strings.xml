@@ -26,4 +26,7 @@
     <string name="txt_pedidos">Pedidos</string>
     <string name="txt_pedidos_realizados">Pedidos realizados</string>
     <string name="txt_menu">Menu</string>
+    <string name="txt_carrito_de_compras">Carrito de compras</string>
+    <string name="txt_eliminar">Eliminar</string>
+    <string name="txt_precio">Precio:</string>
 </resources>

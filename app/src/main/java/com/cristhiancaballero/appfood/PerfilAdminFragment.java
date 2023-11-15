@@ -10,8 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,7 +20,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PerfilFragment extends Fragment {
+public class PerfilAdminFragment extends Fragment {
 
     Button btn_salir, btn_editar_perfil;
     CircleImageView profileImage;
@@ -32,17 +30,19 @@ public class PerfilFragment extends Fragment {
     FirebaseUser user;
     TextView email, edad_modificado, username;
 
-    public PerfilFragment() {
+    public PerfilAdminFragment() {
         // Required empty public constructor
     }
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_perfil, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_perfil_admin, container, false);
 
         email = view.findViewById(R.id.email);
         edad_modificado = view.findViewById(R.id.edad_modificado);
@@ -60,18 +60,6 @@ public class PerfilFragment extends Fragment {
         String idUsuario = user.getUid();
 
         cargarDatosUsuarios(email, username, edad_modificado, profileImage, idUsuario);
-
-        btn_editar_perfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ActualizarPerfilFragment actualizarPerfilFragment = new ActualizarPerfilFragment();
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.contenedor, actualizarPerfilFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
 
         btn_salir.setOnClickListener(new View.OnClickListener() {
             @Override
